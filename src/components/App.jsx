@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 import TodoItem from "./TodoItem";
+import InputErea from "./InputErea";
 
 function App() {
-  const [item, setItem] = useState("");
   const [items, setItems] = useState([]);
 
-  function handleChange(event) {
-    setItem(event.target.value);
-  }
-
-  function addItem() {
+  function addItem(item) {
     setItems((prevItems) => [...prevItems, item]);
-    setItem("");
   }
 
   function handleDelete(id) {
-    // console.log(id);
     setItems((prevItems) => prevItems.filter((item, index) => index !== id));
   }
 
@@ -24,12 +18,7 @@ function App() {
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
-      <div className="form">
-        <input onChange={handleChange} type="text" value={item} />
-        <button onClick={addItem}>
-          <span>Add</span>
-        </button>
-      </div>
+      <InputErea onAdd={addItem} />
       <div>
         <ul>
           {items.map((todoItem, index) => (
