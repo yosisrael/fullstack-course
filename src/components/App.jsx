@@ -1,38 +1,32 @@
-import React, { useState } from "react";
+import React, {useReducer} from "react";
 import TodoItem from "./TodoItem";
 import InputErea from "./InputErea";
+import reducer from "../reducer";
+
+const initialState = {items: []};
 
 function App() {
-  const [items, setItems] = useState([]);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
-  function addItem(item) {
-    setItems((prevItems) => [...prevItems, item]);
-  }
-
-  function handleDelete(id) {
-    setItems((prevItems) => prevItems.filter((item, index) => index !== id));
-  }
-
-  return (
-    <div className="container">
-      <div className="heading">
-        <h1>To-Do List</h1>
-      </div>
-      <InputErea onAdd={addItem} />
-      <div>
-        <ul>
-          {items.map((todoItem, index) => (
-            <TodoItem
-              key={index}
-              id={index}
-              text={todoItem}
-              onClick={handleDelete}
-            />
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
+    return (
+        <div className="container">
+            <div className="heading">
+                <h1>To-Do List</h1>
+            </div>
+            <InputErea dispatch={dispatch}/>
+            <div>
+                <ul>
+                    {state.items.map(todoItem => (
+                        <TodoItem
+                            key={todoItem.id}
+                            todoItem={todoItem}
+                            dispatch={dispatch}
+                        />
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
 }
 
 export default App;

@@ -1,25 +1,33 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import {ACTIONS} from "../reducer";
+import AddIcon from "@mui/icons-material/Add";
 
 function InputErea(props) {
-  const [item, setItem] = useState("");
+    const [text, setText] = useState("");
 
-  function handleChange(event) {
-    setItem(event.target.value);
-  }
+    function createNewItem(text) {
+        return {id: Date.now(), text, completed: false}
+    }
 
-  return (
-    <div className="form">
-      <input onChange={handleChange} type="text" value={item} />
-      <button
-        onClick={() => {
-          props.onAdd(item);
-          setItem("");
-        }}
-      >
-        <span>Add</span>
-      </button>
-    </div>
-  );
+    function handleAdd() {
+        props.dispatch({type: ACTIONS.ADD_ITEM, payload: createNewItem(text)});
+        setText("");
+    }
+
+    function handleChange(event) {
+        setText(event.target.value);
+    }
+
+    return (
+        <div className="form">
+            <input onChange={handleChange} type="text" value={text}/>
+            <button onClick={handleAdd}>
+        <span>
+            <AddIcon/>
+        </span>
+            </button>
+        </div>
+    );
 }
 
 export default InputErea;
